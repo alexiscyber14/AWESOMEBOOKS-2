@@ -1,6 +1,7 @@
 
 import {Book } from "./modules/block_class_constructor.js";
-
+import { navigator } from "./modules/navigatot.js";
+import { timing } from "./modules/time.js";
  
   class BookCollection {
     constructor() {
@@ -57,6 +58,8 @@ import {Book } from "./modules/block_class_constructor.js";
     }
   }
   
+
+  
   const bookCollection = new BookCollection();
   bookCollection.load();
   bookCollection.render();
@@ -70,28 +73,7 @@ import {Book } from "./modules/block_class_constructor.js";
     bookCollection.render();
     bookForm.reset();
   });
-  
-  let pev = document.querySelectorAll(".window");
-  let btx = document.querySelectorAll(".switch")
-  
-                      let palNav = (nual) => {
-                          pev.forEach((slide) => {
-                              slide.classList.remove('current-window');
-  
-                              btx.forEach((btn)=>{
-                                  btn.classList.remove('active');
-                              });
-                          });
-  
-                          pev[nual].classList.add('current-window');
-                          btx[nual].classList.add('active');
-                      }
-                      btx.forEach((btn, i) => {
-                          btn.addEventListener("click", () => {
-                              palNav(i);
-                          });
-                      });
-  const timeDate = document.getElementById('dated')
-  const date = new Date();
-  timeDate.innerHTML = date;
+ 
+navigator();
+timing();
 
