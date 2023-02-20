@@ -1,13 +1,12 @@
+import { Book } from './modules/block_class_constructor.js';
+import { navigator } from './modules/navigatot.js';
+import { timing } from './modules/time.js';
 
-import {Book } from "./modules/block_class_constructor.js";
-import { navigator } from "./modules/navigatot.js";
-import { timing } from "./modules/time.js";
- 
-  class BookCollection {
-    constructor() {
-      this.books = [];
-    }
-  
+class BookCollection {
+  constructor() {
+    this.books = [];
+  }
+
     getNextId = () => {
       let maxId = 0;
       for (const book of this.books) {
@@ -17,23 +16,22 @@ import { timing } from "./modules/time.js";
       }
       return maxId + 1;
     }
-  
+
     addBook = (title, author) => {
       const id = this.getNextId();
       const book = new Book(id, title, author);
       this.books.push(book);
       this.save();
     }
-  
+
     removeBook = (id) => {
       this.books = this.books.filter((book) => book.id !== id);
       this.save();
     }
-  
+
     render = () => {
       const bookCollection = document.getElementById('book-collection');
       bookCollection.innerHTML = '';
-      const color = '#fff';
       for (const book of this.books) {
         const bookElement = document.createElement('div');
         bookElement.className = 'list-block';
@@ -45,35 +43,32 @@ import { timing } from "./modules/time.js";
         bookCollection.appendChild(bookElement);
       }
     }
-  
+
     save = () => {
       localStorage.setItem('books', JSON.stringify(this.books));
     }
-  
+
     load = () => {
       const books = JSON.parse(localStorage.getItem('books')) || [];
       for (const book of books) {
         this.books.push(new Book(book.id, book.title, book.author));
       }
     }
-  }
-  
+}
 
-  
-  const bookCollection = new BookCollection();
-  bookCollection.load();
+const bookCollection = new BookCollection();
+bookCollection.load();
+bookCollection.render();
+
+const bookForm = document.getElementById('book-form');
+bookForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const title = document.getElementById('title').value;
+  const author = document.getElementById('author').value;
+  bookCollection.addBook(title, author);
   bookCollection.render();
-  
-  const bookForm = document.getElementById('book-form');
-  bookForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const title = document.getElementById('title').value;
-    const author = document.getElementById('author').value;
-    bookCollection.addBook(title, author);
-    bookCollection.render();
-    bookForm.reset();
-  });
- 
+  bookForm.reset();
+});
+
 navigator();
 timing();
-
